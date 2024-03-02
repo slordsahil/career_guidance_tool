@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIGNUP</title>
+    <link rel="stylesheet" type="text/css" href=" {% static '/css/register.css' %} ">
+</head>
+<body>
+    <div class="main">
+        <div class="left">
+             <div class="left-content">
+                <h1>Welcome Back!</h1>
+                <h3>To keep connected with us please<br> login with your personal info.</h3>
+                <button>
+                    <a href="{% url 'login' %}">SIGN IN</a>
+                </button>
+            </div>
+        </div>
+        <div class="right">
+            <h1>Create Account</h1>
+            <div class="logos">
+                <div class="circle">
+                    <img src="{% static '/Images/fb.png' %}" alt="facebook">
+                </div>
+                <div class="circle">
+                    <img id="google" src="{% static '/Images/google.png' %}" alt="google">
+                </div>
+                <div class="circle">
+                    <img src="{% static '/Images/linkedin.png' %}" alt="linkedin">
+                </div>
+            </div>
+            <p>or use your email for registration</p>
+            <div class="fields">
+                <form method="post" action="">
+                    {% csrf_token %}
+                    <div class="input-img">
+                        <img src="{% static '/Images/name.png' %}" alt="username">
+                        <input type="text" placeholder="Name" name="username" required>
+                    </div>
+                    <div class="input-img">
+                        <img src="{% static '/Images/email.png' %}" alt="email">
+                        <input type="email" placeholder="Email" name="email" required>
+                    </div>
+                    <div class="input-img">
+                        <img src="{% static '/Images/password.png' %}" alt="password">
+                        <input type="password" placeholder="Password" name="password" required>
+                    </div>
+                    <div class="input-img">
+                        <img src="{% static '/Images/password.png' %}" alt="password">
+                        <input type="password" placeholder="Confirm Password" name="Confirmpassword" required>
+                    </div>
+                    <div class="input-img">
+                        <img src="{% static '/Images/college.png' %}" alt="college name">
+                        <input type="text" placeholder="College Name" name="college" required>
+                    </div>
+                    <div class="input-img">
+                        <img src="{% static '/Images/ID.png' %}" alt="ID">
+                        <input type="text" placeholder="College ID" name="collegeid" required>
+                    </div>
+                    <div class="input-img">
+                        <img src="{% static '/Images/phone.png' %}" alt="contact">
+                        <input type="tel" pattern=".{10,10}" class="input_fields" placeholder="Phone number (+91)/"name="contact" required>
+                    </div>
+                </div>
+                <button type="submit" name="submit" value="signup">Register</button>
+                 </div>
+                 </form>    
+            
+    </div>
+</body>
+</html>
