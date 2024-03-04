@@ -49,4 +49,7 @@ def log_out(request):
     logout(request)
     return redirect(reverse('login'))
 
-# Create your views here.
+@login_required(login_url='login')
+def test_page(request):
+    return render(request,'test_page.html')
+
