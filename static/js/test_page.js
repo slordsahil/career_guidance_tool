@@ -730,7 +730,7 @@ let shuffledQuestions = [] //empty array to hold shuffled selected questions out
 function handleQuestions() {
     //function to shuffle and push 10 questions to shuffledQuestions array
     //app would be dealing with 10questions per session
-    while (shuffledQuestions.length <= 9) {
+    while (shuffledQuestions.length <= 39) {
         const random = questions[Math.floor(Math.random() * questions.length)]
         if (!shuffledQuestions.includes(random)) {
             shuffledQuestions.push(random)
@@ -812,7 +812,7 @@ function handleNextQuestion() {
     unCheckRadioButtons()
     //delays next question displaying for a second just for some effects so questions don't rush in on player
     setTimeout(() => {
-        if (indexNumber <= 9) {
+        if (indexNumber <= 39) {
             //displays next question as long as index number isn't greater than 9, remember index number starts from 0, so index 9 is question 10
             NextQuestion(indexNumber)
         }
@@ -845,19 +845,19 @@ function handleEndGame() {
     let remarkColor = null
 
     // condition check for player remark and remark color
-    if (playerScore <= 3) {
+    if (playerScore <= 10) {
         remark = "Bad Grades, Keep Practicing."
         remarkColor = "red"
     }
-    else if (playerScore >= 4 && playerScore < 7) {
+    else if (playerScore >= 11 && playerScore < 30) {
         remark = "Average Grades, You can do better."
         remarkColor = "orange"
     }
-    else if (playerScore >= 7) {
+    else if (playerScore >= 31) {
         remark = "Excellent, Keep the good work going."
         remarkColor = "green"
     }
-    const playerGrade = (playerScore / 10) * 100
+    const playerGrade = (playerScore / 40) * 100
 
     //data to display to score board
     document.getElementById('remarks').innerHTML = remark
