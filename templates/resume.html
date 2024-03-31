@@ -1,0 +1,23 @@
+<!doctype html>
+{%load static%}
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <form action="." method="post" enctype="multipart/form-data">
+
+      {% csrf_token %}
+      {{form.as_p}}
+      
+      <button type="submit" class="btn btn-lg btn-success">Upload</button>
+      </form>
+      {% if obj %}
+      <h3>Successfully uploaded:</h3>
+      <p>Name: {{ obj.name }}</p>
+      <img src="{{ obj.file.url}}" alt="image" class="img-thumbnail" >
+      <h1>{{ api_response}}</h1>
+      {% endif %}
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+   </body>
+</html>

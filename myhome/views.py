@@ -1,9 +1,26 @@
-from django.shortcuts import render,HttpResponse,redirect
+from django.shortcuts import render,HttpResponse,redirect,HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
+from .models import Images
+from .forms import Imageform
 from django.urls import reverse
+import os
+from PIL import Image
+from dotenv import load_dotenv
+load_dotenv()
+import base64
+from PIL import Image
+import google.generativeai as genai
+
+def call_api(prompt,images_uploaded):
+    genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+    model = genai.GenerativeModel('gemini-pro')
+    responses = model.generate_content(prompt+images_uploaded)
+    return  responses.text
+
+
 
 def index(request):
     if request.method=='POST':
@@ -52,4 +69,18 @@ def log_out(request):
 @login_required(login_url='login')
 def test_page(request):
     return render(request,'test_page.html')
+
+def resume_checker(request):   
+    if request.method == "POST":
+        form=Imageform(data=request.POST,files=request.FILES)
+        if form.is_valid():
+            form.save()
+            obj=form.instance
+            api_response=call_api("entering resume details give the corection and which field is best for this",form.cleaned_data['name'])
+            return render(request,"resume.html",{"obj":obj,"api_response":api_response})
+    else:
+        form=Imageform()
+    img=Images.objects.all()
+    return render(request,"resume.html",{"img":img,"form":form})
+    
 
