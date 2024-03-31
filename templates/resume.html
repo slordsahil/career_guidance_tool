@@ -13,7 +13,8 @@
       {% if obj %}
       <h3>Successfully uploaded:</h3>
       <p>Name: {{ obj.name }}</p>
-      <img src="{{ obj.file.url}}" alt="image" class="img-thumbnail" >
+      <embed src="{{obj.file.url}}" width="800px" height="600px" />
+
       <h1>{{ api_response}}</h1>
       {% endif %}
 

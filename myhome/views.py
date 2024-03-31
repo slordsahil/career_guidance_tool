@@ -3,22 +3,33 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
+from PyPDF2 import PdfReader
 from .models import Images
 from .forms import Imageform
 from django.urls import reverse
 import os
-from PIL import Image
 from dotenv import load_dotenv
 load_dotenv()
-import base64
-from PIL import Image
 import google.generativeai as genai
+from pathlib import Path
 
 def call_api(prompt,images_uploaded):
     genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
     model = genai.GenerativeModel('gemini-pro')
-    responses = model.generate_content(prompt+images_uploaded)
+    text=""
+    pdf_reader=PdfReader(images_uploaded)
+    for page in pdf_reader.pages:
+        text+=page.extract_text()
+    # image_path=Path(images_uploaded)
+    # image_part={
+    #     "mime_type":"image/jpeg",
+    #     "data":image_path.read_bytes()
+        
+    # }
+    
+    responses = model.generate_content([prompt,text])
     return  responses.text
+
 
 
 
@@ -75,8 +86,13 @@ def resume_checker(request):
         form=Imageform(data=request.POST,files=request.FILES)
         if form.is_valid():
             form.save()
+            image_instance = Images.objects.latest('id') 
+            # Retrieve the instance using the primary key or any other unique identifier
+
+            # Access the path of the uploaded image
+            image_path = image_instance.file.path
             obj=form.instance
-            api_response=call_api("entering resume details give the corection and which field is best for this",form.cleaned_data['name'])
+            api_response=call_api("adding my resume contents ,now tell me what changes must be done in this to make it better and give a list of career field that i can cater according to my resume",image_path)
             return render(request,"resume.html",{"obj":obj,"api_response":api_response})
     else:
         form=Imageform()
