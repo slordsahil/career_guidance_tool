@@ -11,7 +11,11 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 import google.generativeai as genai
-from pathlib import Path
+from joblib import load
+from sklearn.preprocessing import StandardScaler
+scaler=StandardScaler()
+
+model=load('saveModels/model.joblib')
 
 def call_api(prompt,images_uploaded):
     genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
@@ -54,7 +58,9 @@ def index(request):
 
 @login_required(login_url='login')
 def home_page(request):
-    return render(request,'home_page.html')
+    tets_a=scaler.fit_transform([[3,0,3,1,3,2,0,3,2,3,3,1,3,2,0,1,2,3,1,2,3]])
+    pred=model.predict(tets_a)
+    return render(request,'home_page.html',{'pred':pred})
 
 def log_in(request):
     if request.method=='POST':
