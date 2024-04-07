@@ -9,29 +9,37 @@ from .forms import Imageform
 from django.urls import reverse
 import os
 from dotenv import load_dotenv
+import json
 load_dotenv()
+from django.core import serializers
 import google.generativeai as genai
 from joblib import load
 from sklearn.preprocessing import StandardScaler
 scaler=StandardScaler()
+from django.http import JsonResponse
 
 model=load('saveModels/model.joblib')
-
-def call_api(prompt,images_uploaded):
+finalpred=[]
+def call_api(prompt,images_uploaded,vnumber=0):
     genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
     model = genai.GenerativeModel('gemini-pro')
-    text=""
-    pdf_reader=PdfReader(images_uploaded)
-    for page in pdf_reader.pages:
-        text+=page.extract_text()
-    # image_path=Path(images_uploaded)
-    # image_part={
-    #     "mime_type":"image/jpeg",
-    #     "data":image_path.read_bytes()
+    if vnumber==1:
+        text=""
+        pdf_reader=PdfReader(images_uploaded)
+        for page in pdf_reader.pages:
+            text+=page.extract_text()
+        # image_path=Path(images_uploaded)
+        # image_part={
+        #     "mime_type":"image/jpeg",
+        #     "data":image_path.read_bytes()
+            
+        # }
+        responses = model.generate_content([prompt,text])
+    else:
         
-    # }
+        responses = model.generate_content([prompt,images_uploaded])
+        
     
-    responses = model.generate_content([prompt,text])
     return  responses.text
 
 
@@ -58,9 +66,8 @@ def index(request):
 
 @login_required(login_url='login')
 def home_page(request):
-    tets_a=scaler.fit_transform([[3,0,3,1,3,2,0,3,2,3,3,1,3,2,0,1,2,3,1,2,3]])
-    pred=model.predict(tets_a)
-    return render(request,'home_page.html',{'pred':pred})
+    
+    return render(request,'home_page.html')
 
 def log_in(request):
     if request.method=='POST':
@@ -85,7 +92,24 @@ def log_out(request):
 
 @login_required(login_url='login')
 def test_page(request):
-    return render(request,'test_page.html')
+
+    if request.method == 'POST':
+        datas =json.loads(request.POST.get('data'))
+        tets_a=scaler.fit_transform([datas])
+        global finalpred
+        finalpred=str(model.predict(tets_a))
+        print(finalpred)
+
+        return render(request,'test_page1.html',{'preda':finalpred})
+
+    return render(request,'test_page1.html')
+            
+
+def result(request):
+    global finalpred
+    api_response=call_api("Generate a comprehensive paragraph outlining the essential skills, knowledge,tools,technology and understanding required for a career as a s",finalpred)
+
+    return render(request,'Result.html',{"refinal":finalpred,"api_call":api_response})
 
 def resume_checker(request):   
     if request.method == "POST":
@@ -98,7 +122,7 @@ def resume_checker(request):
             # Access the path of the uploaded image
             image_path = image_instance.file.path
             obj=form.instance
-            api_response=call_api("adding my resume contents ,now tell me what changes must be done in this to make it better and give a list of career field that i can cater according to my resume",image_path)
+            api_response=call_api("adding my resume contents ,now tell me what changes must be done in this to make it better and give a list of career field that i can cater according to my resume",image_path,1)
             return render(request,"resume.html",{"obj":obj,"api_response":api_response})
     else:
         form=Imageform()

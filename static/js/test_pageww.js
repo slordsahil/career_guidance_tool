@@ -730,7 +730,7 @@ let shuffledQuestions = [] //empty array to hold shuffled selected questions out
 function handleQuestions() {
     //function to shuffle and push 10 questions to shuffledQuestions array
     //app would be dealing with 10questions per session
-    while (shuffledQuestions.length <= 39) {
+    while (shuffledQuestions.length <= 2) {
         const random = questions[Math.floor(Math.random() * questions.length)]
         if (!shuffledQuestions.includes(random)) {
             shuffledQuestions.push(random)
@@ -741,7 +741,7 @@ function handleQuestions() {
 
 let questionNumber = 1 //holds the current question number
 let playerScore = 0  //holds the player score
-let wrongAttempt = 0 //amount of wrong answers picked by player
+var marklist = [] //amount of wrong answers picked by player
 let indexNumber = 0 //will be used in displaying next question
 
 // function for displaying next question in the array to dom
@@ -782,8 +782,9 @@ function checkForAnswer() {
     options.forEach((option) => {
         if (option.checked === true && option.value === currentQuestionAnswer) {
             // document.getElementById(correctOption).style.backgroundColor = "green"
-            playerScore++ //adding to player's score
+            playerScore++//adding to player's score
             indexNumber++ //adding 1 to index so has to display next question..
+            marklist.push(1)
             //set to delay question number till when next question loads
             setTimeout(() => {
                 questionNumber++
@@ -794,7 +795,7 @@ function checkForAnswer() {
             const wrongLabelId = option.labels[0].id
             // document.getElementById(wrongLabelId).style.backgroundColor = "red"
             // document.getElementById(correctOption).style.backgroundColor = "green"
-            wrongAttempt++ //adds 1 to wrong attempts 
+            marklist.push(0) //adds 1 to wrong attempts 
             indexNumber++
             //set to delay question number till when next question loads
             setTimeout(() => {
@@ -812,7 +813,7 @@ function handleNextQuestion() {
     unCheckRadioButtons()
     //delays next question displaying for a second just for some effects so questions don't rush in on player
     setTimeout(() => {
-        if (indexNumber <= 39) {
+        if (indexNumber <= 1) {
             //displays next question as long as index number isn't greater than 9, remember index number starts from 0, so index 9 is question 10
             NextQuestion(indexNumber)
         }
@@ -843,9 +844,9 @@ function unCheckRadioButtons() {
 function handleEndGame() {
     let remark = null
     let remarkColor = null
-
+    
     // condition check for player remark and remark color
-    if (playerScore <= 10) {
+    if (playerScore <= 1) {
         remark = "Bad Grades, Keep Practicing."
         remarkColor = "red"
     }
@@ -858,22 +859,29 @@ function handleEndGame() {
         remarkColor = "green"
     }
     const playerGrade = (playerScore / 40) * 100
-
+    var kk=[1,0,3,1,3,2,0,3,2,3,3,1,3,2,0,1,2,3,1,2,3]
+    var kl="jjr"
     //data to display to score board
     document.getElementById('remarks').innerHTML = remark
     document.getElementById('remarks').style.color = remarkColor
     document.getElementById('grade-percentage').innerHTML = playerGrade
-    document.getElementById('wrong-answers').innerHTML = wrongAttempt
+    document.getElementById('list-answers').innerHTML = kk
     document.getElementById('right-answers').innerHTML = playerScore
     document.getElementById('score-modal').style.display = "flex"
-
 }
+
+
+                                
+                            
+    
+
+
 
 //closes score modal, resets game and reshuffles questions
 function closeScoreModal() {
     questionNumber = 1
     playerScore = 0
-    wrongAttempt = 0
+    marklist = []
     indexNumber = 0
     shuffledQuestions = []
     NextQuestion(indexNumber)
@@ -901,6 +909,14 @@ function timer() {
         }
     }, 1000)
 }
+
+
+// Call the AJAX function when the document is ready
+    // AJAX call function
+
+    // Call the function to send POST request
+
+
 
 // This function converts the seconds to Hour, Minutes and Seconds
 // Max Limit 3600 Seconds.

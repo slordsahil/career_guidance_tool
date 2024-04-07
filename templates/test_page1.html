@@ -1,0 +1,128 @@
+{% load static %}
+<body onload="NextQuestion(0)">
+
+    <main>
+        <!-- creating a modal for when quiz ends -->
+        <div class="modal-container" id="score-modal">
+                
+                <div class="modal-content-container">
+                    <h1>Congratulations, Quiz Completed.</h1>
+                    <div class="grade-details">
+                        {% csrf_token %}
+                        <p>Attempts : 40</p>
+                        <p>Wrong Answers : <span id="list-answers"></span></p>
+                        <p>Right Answers : <span id="right-answers"></span></p>
+
+                        
+                        <p>Grade : <span id="grade-percentage"></span>%</p>
+                        <p><span id="remarks"></span></p>
+                    </div>
+                    <form id="dataForm">
+                        <button type="submit">Send</button>
+                    </form>
+                    <div class="banner-btn">
+                        <a href="{% url 'result' %}" ><span></span>result</a>
+                    </div>
+                    <div class="modal-button-container">
+                        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+                        <script>
+                            // Place your JavaScript code here
+                            $(document).ready(function() {
+                                function sendData() {
+                                    var inputData = $('#list-answers').text().split(','); 
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/test/",
+                                        data: {
+                                            'data':JSON.stringify(inputData) ,
+                                            'csrfmiddlewaretoken': '{{ csrf_token }}'
+                                        },
+                                        success: function(response) {
+                                            console.log("Data sent successfully");
+                                        },
+                                        error: function(xhr, status, error) {
+                                            console.error("Error sending data:", error);
+                                        }
+                                    });
+                                };
+                                $('#dataForm').on('click', function(event) {
+                                    event.preventDefault(); // Prevent default anchor behavior
+                                    sendData(); // Call sendData function
+                                });
+                            });
+                        </script>
+                    </div>
+                    
+                </div>
+            </div>
+    <!-- end of modal of quiz details-->
+    <div class="game-quiz-container">
+        <br>
+        <div id="timer" style="display: flex;">
+            <div>Time Left : </div>
+            <div id="hours" style="margin-left: 20px;"></div>
+            <div id="minutes" style="margin-left: 20px;"></div>
+            <div id="seconds" style="margin-left: 20px;"></div>
+        </div>
+        
+        <div class="game-details-container">
+            <!-- <h1>Score : <span id="player-score"></span> / 40</h1> -->
+            <h1> Question : <span id="question-number"></span> / 40</h1>
+        </div>
+        
+        <div class="game-question-container">
+            <h1 id="display-question"></h1>
+        </div>
+        <br>
+        <div class="game-options-container">
+            
+            <div class="modal-container" id="option-modal">
+                
+                <div class="modal-content-container">
+                    <h1>Please Pick An Option</h1>
+                    
+                    <div class="modal-button-container">
+                        <button onclick="closeOptionModal()">Continue</button>
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+            <span>
+                <input type="radio" id="option-one" name="option" class="radio" value="optionA" />
+                <label for="option-one" class="option" id="option-one-label"></label>
+            </span>
+            
+            
+            <span>
+                <input type="radio" id="option-two" name="option" class="radio" value="optionB" />
+                <label for="option-two" class="option" id="option-two-label"></label>
+            </span>
+            
+            
+            <span>
+                <input type="radio" id="option-three" name="option" class="radio" value="optionC" />
+                <label for="option-three" class="option" id="option-three-label"></label>
+            </span>
+            
+            
+            <span>
+                <input type="radio" id="option-four" name="option" class="radio" value="optionD" />
+                <label for="option-four" class="option" id="option-four-label"></label>
+            </span>
+            
+            
+        </div>
+        <br>
+        <div class="next-button-container">
+            <button onclick="handleNextQuestion()">Next Question</button>
+        </div>
+        <br>
+        
+    </div>
+</main>
+<script src="{% static '/js/test_pageww.js' %}"></script>
+<link rel="stylesheet" href="{% static '/css/test_page.css' %}">
+</body>
