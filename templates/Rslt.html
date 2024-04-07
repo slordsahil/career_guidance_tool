@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Result</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            background: linear-gradient(to bottom, #007FFF);
+        }
+        .result-container {
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        .score {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        p { 
+            font-size: 20px; 
+        } 
+        .container { 
+            background-color: rgb(192, 192, 192); 
+            width: 90%; 
+            border-radius: 25px; 
+        } 
+        .skill { 
+            background-color: rgb(116, 194, 92); 
+            color: white; 
+            padding: 3%; 
+            text-align: right; 
+            font-size: 20px; 
+            border-radius: 20px; 
+        } 
+        .java { 
+            width: 80%; 
+        } 
+        .python { 
+            width: 60%; 
+        } 
+        button {
+            background-color: gray; /* Changed button color to gray */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="result-container">
+        <h1>Test Result</h1>
+        <p>Java</p>   
+        <div class="container"> 
+            <div class="skill java" id="javaSkill"></div> 
+        </div> 
+  
+        <p>Python</p> 
+        <div class="container"> 
+            <div class="skill python" id="pythonSkill"></div>
+        </div> 
+        <div class="score" id="score"></div>
+        <h4>Congrats, You are good at two domains Java and Python</h4>
+        <button onclick="changeScore()">Change Score</button>
+    </div>
+
+    <script>
+        let javascore = parseInt(prompt("Enter your Java score (0-100):"));
+        let pythonscore = parseInt(prompt("Enter your Python score (0-100):"));
+        function changeScore() {
+            let newJavaScore = parseInt(prompt("Enter the updated Java score (0-100):"));
+            let newPythonScore = parseInt(prompt("Enter the updated Python score (0-100):"));
+            if (!isNaN(newJavaScore) && newJavaScore >= 0 && newJavaScore <= 100 &&
+                !isNaN(newPythonScore) && newPythonScore >= 0 && newPythonScore <= 100) {
+                const javaSkillElement = document.getElementById('javaSkill');
+                const pythonSkillElement = document.getElementById('pythonSkill');
+                javaSkillElement.style.width = ${newJavaScore}%;
+                pythonSkillElement.style.width = ${newPythonScore}%;
+                document.getElementById('score').textContent = Your Score: Java - ${newJavaScore}%, Python - ${newPythonScore}%;
+            } else {
+                alert("Please enter valid scores between 0 and 100.");
+            }
+        }
+    </script>
+</body>
+</html>

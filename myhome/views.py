@@ -94,7 +94,18 @@ def log_out(request):
 def test_page(request):
 
     if request.method == 'POST':
-        datas =json.loads(request.POST.get('data'))
+        datasold =json.loads(request.POST.get('data'))
+        print(datasold)
+        datas=[0]*21
+        j=0
+        for i in range(0,len(datasold),3):
+            0
+            datas[j]=sum([int(datasold[i]),int(datasold[i+1]),int(datasold[i+2])])
+            j+=1
+        print(datas)
+        print(datasold)
+        
+        
         tets_a=scaler.fit_transform([datas])
         global finalpred
         finalpred=str(model.predict(tets_a))
