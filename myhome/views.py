@@ -90,6 +90,16 @@ def log_out(request):
     logout(request)
     return redirect(reverse('login'))
 
+def careerguidance(request):
+    return render(request,'CareerGuidance.html')
+
+def courses(request):
+    return render(request,'Courses.html')
+
+def jobfor(request):
+    return render(request,'Jobfor.html')
+
+
 @login_required(login_url='login')
 def test_page(request):
 
