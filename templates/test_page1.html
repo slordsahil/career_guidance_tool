@@ -10,7 +10,7 @@
                     <div class="grade-details">
                         {% csrf_token %}
                         <p>Attempts : 63</p>
-                        <p>Wrong Answers : <span id="list-answers"></span></p>
+                        <p>Your Answers : <span id="list-answers"></span></p>
                         <p>Right Answers : <span id="right-answers"></span></p>
 
                         
@@ -18,11 +18,11 @@
                         <p><span id="remarks"></span></p>
                     </div>
                     <form id="dataForm">
-                        <button type="submit">Send</button>
+                        <button class="button111" style="vertical-align:middle"><span>SUBMIT </span></button>
                     </form>
-                    <div class="banner-btn">
+                    {% comment %} <div class="banner-btn">
                         <a href="{% url 'result' %}" ><span></span>result</a>
-                    </div>
+                    </div> {% endcomment %}
                     <div class="modal-button-container">
                         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -40,6 +40,7 @@
                                         },
                                         success: function(response) {
                                             console.log("Data sent successfully");
+                                            window.location.href = "{% url 'result' %}";
                                         },
                                         error: function(xhr, status, error) {
                                             console.error("Error sending data:", error);
@@ -123,6 +124,6 @@
         
     </div>
 </main>
-<script src="{% static '/js/test_page1s.js' %}"></script>
-<link rel="stylesheet" href="{% static '/css/test_page.css' %}">
+<script src="{% static '/js/test_page1sl.js' %}"></script>
+<link rel="stylesheet" href="{% static '/css/test_page1.css' %}">
 </body>

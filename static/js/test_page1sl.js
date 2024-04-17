@@ -638,8 +638,8 @@ function handleEndGame() {
 
     const playerGrade = (playerScore / 63) * 100
     //data to display to score board
-    k =[1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1]
-    document.getElementById('remarks').innerHTML = remark
+k=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,1,1]
+document.getElementById('remarks').innerHTML = remark
     document.getElementById('remarks').style.color = remarkColor
     document.getElementById('grade-percentage').innerHTML = playerGrade
     document.getElementById('list-answers').innerHTML = k
