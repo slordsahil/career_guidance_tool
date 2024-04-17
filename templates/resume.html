@@ -2,22 +2,71 @@
 {%load static%}
 <html lang="en">
   <head>
-    <!-- Required meta tags -->
+    <link rel="stylesheet" type="text/css" href=" {% static '/css/new.css' %} ">
+
     <form action="." method="post" enctype="multipart/form-data">
-
-      {% csrf_token %}
-      {{form.as_p}}
       
-      <button type="submit" class="btn btn-lg btn-success">Upload</button>
-      </form>
-      {% if obj %}
-      <h3>Successfully uploaded:</h3>
-      <p>Name: {{ obj.name }}</p>
-      <embed src="{{obj.file.url}}" width="800px" height="600px" />
+      <img src="{% static '/Images/Careers.jpg' %}"  style="position: absolute; top: 100px; right: 0; margin-top: 20px; margin-right: px; ">
+      
+      <h1 class="test1">upload your resume</h1>    
+      <h1 class="test2">If you're seeking a thorough review of the corrections made to your resume and wish to explore career paths aligned with your qualifications, we kindly request that you upload the file.............. 
+      
+            {% csrf_token %}
+            {{form.as_p}}
+          </h1>  
+            
+            
+            <div class="wrapper">
+              <div class="file-upload" id="fileUpload">
+                <input type="submit" style="padding: 15px 30px; font-size: 30px; border-radius: 10px; display:none "/>
+                <i class="bi bi-upload"></i>
+                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
+                  <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+                  <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z"/>
+                </svg>
+              </div>
+            </div>
+            <script>
+              var fileUpload = document.getElementById('fileUpload');
+              fileUpload.addEventListener('click', function() {
+                this.closest('form').submit();
+              });
+            </script>
+            
+            {% if obj %}
+            
+            <embed src="{{obj.file.url}}" width="800px" height="600px" />
+            <h1 class="text5">
 
-      <h1>{{ api_response}}</h1>
-      {% endif %}
-
+            <div id="formattedText"></div>
+            <script>
+              // Your input text with "**" indicating headings and "*" indicating new lines
+              const apiResponse = `{{ api_response }}`;
+  
+              // Function to format the input text
+              function formatText(text) {
+                  const lines = text.split('*');
+                  let formattedText = '';
+                  lines.forEach(line => {
+                      if (line.trim().startsWith('**')) {
+                          formattedText += `<h2>${line.replace('**', '').trim()}</h2>`;
+                      } else if (line.trim() !== '') {
+                          formattedText += `<p>${line.trim()}</p>`;
+                      }
+                  });
+                  return formattedText;
+              }
+  
+              // Display the formatted text
+              document.getElementById('formattedText').innerHTML = formatText(apiResponse);
+          </script>
+        </h1>
+            
+            {% endif %}
+            
+            
+          </form>
+            
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
    </body>

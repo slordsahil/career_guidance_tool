@@ -143,7 +143,7 @@ def resume_checker(request):
             # Access the path of the uploaded image
             image_path = image_instance.file.path
             obj=form.instance
-            api_response=call_api("adding my resume contents ,now tell me what changes must be done in this to make it better and give a list of career field that i can cater according to my resume",image_path,1)
+            api_response=call_api("create an comprehensive paragraph outlining my resume that what should i improve and which field is best for me from my resume which is",image_path,1)
             return render(request,"resume.html",{"obj":obj,"api_response":api_response})
     else:
         form=Imageform()
