@@ -11,12 +11,10 @@ import os
 from dotenv import load_dotenv
 import json
 load_dotenv()
-from django.core import serializers
 import google.generativeai as genai
 from joblib import load
 from sklearn.preprocessing import StandardScaler
 scaler=StandardScaler()
-from django.http import JsonResponse
 
 model=load('saveModels/model.joblib')
 finalpred=[]
@@ -116,7 +114,8 @@ def test_page(request):
         print(datasold)
         
         
-        tets_a=scaler.fit_transform([datas])
+        tets_a=([datas])
+        print(tets_a)
         global finalpred
         finalpred=str(model.predict(tets_a))
         print(finalpred)
