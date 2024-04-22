@@ -23,32 +23,53 @@
     <div class="skills">
         <div class="skill">
             <div class="skill-name">{{ refinal }}</div>
-            <div class="skill-bar">
-                <div class="skill-per" per="90%" style="max-width: 90%"></div>
-            </div>
+            <div class="skill-per" per="90%" style="max-width: 90%"></div>
         </div>
-{% comment %} 
-        <div class="skill">
-            <div class="skill-name">PYTHON</div>
-            <div class="skill-bar">
-                <div class="skill-per" per="70%" style="max-width: 70%"></div>
-            </div>
-        </div> {% endcomment %}
-
     </div>
+    {% comment %} 
+    <div class="skill">
+        <div class="skill-name">PYTHON</div>
+        <div class="skill-bar">
+            <div class="skill-per" per="70%" style="max-width: 70%"></div>
+        </div>
+    </div> {% endcomment %}
+    
+</div>
 
-   <div class="score" id="score"></div>
-       <h4 class="head">{{api_call}}</h4>
-        {% comment %} <button class="btn" onclick="location.reload()">Retry Test</button> {% endcomment %}
-    </div> 
+<div class="score" id="score"></div>
+<div id="formattedText"  style=" position: absolute; top: 100%; left: 10%;"></div>
+<script>
+    // Your input text with "**" indicating headings and "*" indicating new lines
+    const apiResponse = `{{api_call}}`;
+    
+    // Function to format the input text
+    function formatText(text) {
+        const lines = text.split('*');
+        let formattedText = '';
+        lines.forEach(line => {
+            if (line.trim().startsWith('**')) {
+                formattedText += `<h2>${line.replace('**', '').trim()}</h2>`;
+            } else if (line.trim() !== '') {
+                formattedText += `<p>${line.trim()}</p>`;
+            }
+        });
+        return formattedText;
+    }
+    
+    // Display the formatted text
+    document.getElementById('formattedText').innerHTML = formatText(apiResponse);
+</script>
+<button onclick="window.location.href='{{link_career}}';" style="position: absolute; left:40%; bottom:17%; padding: 10px; background-color: blue; color: white; border-radius: 5px;">
+    Click Here for courses
+</button>
 
-    <style>
-        *{
-            margin: 0;
-            padding: 0;
-            /* font-family: "ubuntu", sans-serif; */
-            box-sizing: border-box;
-            font-family: 'Courier New', Courier, monospace;
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        /* font-family: "ubuntu", sans-serif; */
+        box-sizing: border-box;
+        font-family: 'Courier New', Courier, monospace;
         }
 
         body{

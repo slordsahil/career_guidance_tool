@@ -127,9 +127,20 @@ def test_page(request):
 
 def result(request):
     global finalpred
-    api_response=call_api("Generate a comprehensive paragraph outlining the essential skills, knowledge,tools,technology and understanding required for a career as a s",finalpred)
+    arr1="https://www.coursera.org/specializations/machine-learning-introduction"
+    arr2="https://www.coursera.org/search?query=data%20analyst"
+    arr3="https://www.coursera.org/search?query=data%20scientist"
+    arr4="https://www.coursera.org/search?query=%27information_security_analyst"
+    arr5="https://www.coursera.org/search?query=software%20developer"
+    
+    print(finalpred)
+    
+    dict_career={"['machine_learning']":arr1,"['data_analyst']":arr2,"['data_scientist']":arr3,"['information_security_analyst']":arr4,"['software_developer/engineer']":arr5}
+    link_career=dict_career[finalpred]
+    print(link_career)
+    api_response=call_api("Generate a comprehensive of 100 lines paragraph outlining the essential skills, knowledge,tools,give related courses available,technology and understanding required for a career as a s",finalpred)
 
-    return render(request,'Result.html',{"refinal":finalpred,"api_call":api_response})
+    return render(request,'Result.html',{"refinal":finalpred,"api_call":api_response,"link_career":link_career})
 
 def resume_checker(request):   
     if request.method == "POST":
