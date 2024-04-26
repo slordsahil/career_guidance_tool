@@ -138,7 +138,7 @@ def result(request):
     dict_career={"['machine_learning']":arr1,"['data_analyst']":arr2,"['data_scientist']":arr3,"['information_security_analyst']":arr4,"['software_developer/engineer']":arr5}
     link_career=dict_career[finalpred]
     print(link_career)
-    api_response=call_api("Generate a comprehensive of 100 lines paragraph outlining the essential skills, knowledge,tools,give related courses available,technology and understanding required for a career as a s",finalpred)
+    api_response=call_api("Generate a 100 words  comprehensive  paragraphs  outlining each of the following 1-the essential skills 2- knowledge& tools  3-technology  4- understanding ,,,required for a career as a",finalpred)
 
     return render(request,'Result.html',{"refinal":finalpred,"api_call":api_response,"link_career":link_career})
 

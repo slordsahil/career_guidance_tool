@@ -37,7 +37,7 @@
 </div>
 
 <div class="score" id="score"></div>
-<div id="formattedText"  style=" position: absolute; top: 100%; left: 10%;"></div>
+<div id="formattedText"  style=" position: absolute; top: 100%; left: 10%;width:50% ;"></div>
 <script>
     // Your input text with "**" indicating headings and "*" indicating new lines
     const apiResponse = `{{api_call}}`;
@@ -52,6 +52,7 @@
             } else if (line.trim() !== '') {
                 formattedText += `<p>${line.trim()}</p>`;
             }
+            formattedText+="<br>"
         });
         return formattedText;
     }
